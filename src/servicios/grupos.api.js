@@ -1479,271 +1479,40 @@ export async function listarRepositoriosDondeColaboro() {
 }
 
 /* ==========================================================================
-   9. CHAT DE GRUPOS (TIEMPO REAL)
+   9. CHAT DE GRUPOS (TIEMPO REAL) — extraído a chat.service.js
    ========================================================================== */
 
-async function asegurarMiembroGrupo({ grupoId, userId }) {
-  if (!grupoId || !userId) throw new Error("Datos invalidos.");
-  const { data, error } = await supabase
-    .from("grupo_miembros")
-    .select("id")
-    .eq("grupo_id", grupoId)
-    .eq("user_id", userId)
-    .maybeSingle();
-  if (error) throw error;
-  if (!data) throw new Error("No eres miembro de este grupo.");
-}
-
-export async function listarMensajesGrupo({ grupoId, limite = 20, before = null }) {
-  if (!grupoId) return [];
-  let query = supabase
-    .from("grupo_mensajes")
-    .select("id, grupo_id, user_id, display_name, mensaje, created_at")
-    .eq("grupo_id", grupoId);
-  if (before) {
-    query = query.lt("created_at", before);
-  }
-  const { data, error } = await query
-    .order("created_at", { ascending: false })
-    .limit(limite);
-  if (error) throw error;
-  return (data || []).slice().reverse();
-}
-
-export async function enviarMensajeGrupo({ grupoId, mensaje, displayName = "" }) {
-  if (!grupoId) throw new Error("ID de grupo invalido.");
-  const texto = `${mensaje || ""}`.trim();
-  if (!texto) throw new Error("El mensaje no puede estar vacio.");
-
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const user = session?.user;
-  if (!user) throw new Error("No hay sesion activa.");
-
-  await asegurarMiembroGrupo({ grupoId, userId: user.id });
-
-  const { data, error } = await supabase
-    .from("grupo_mensajes")
-    .insert({
-      grupo_id: grupoId,
-      user_id: user.id,
-      display_name: displayName || user.user_metadata?.display_name || "Usuario",
-      mensaje: texto
-    })
-    .select("id, grupo_id, user_id, display_name, mensaje, created_at")
-    .single();
-  if (error) throw error;
-  return data;
-}
-
-export async function listarLecturasMensajes({ mensajeIds }) {
-  const ids = Array.isArray(mensajeIds) ? mensajeIds.filter(Boolean) : [];
-  if (!ids.length) return [];
-  const { data, error } = await supabase
-    .from("grupo_mensaje_lecturas")
-    .select("mensaje_id, user_id")
-    .in("mensaje_id", ids);
-  if (error) throw error;
-  return data || [];
-}
-
-export async function marcarMensajesLeidos({ mensajeIds }) {
-  const ids = Array.isArray(mensajeIds) ? mensajeIds.filter(Boolean) : [];
-  if (!ids.length) return;
-
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const user = session?.user;
-  if (!user) throw new Error("No hay sesion activa.");
-
-  const rows = ids.map(id => ({ mensaje_id: id, user_id: user.id }));
-  const { error } = await supabase
-    .from("grupo_mensaje_lecturas")
-    .upsert(rows, { onConflict: "mensaje_id,user_id" });
-  if (error) throw error;
-}
+export {
+  listarMensajesGrupo,
+  enviarMensajeGrupo,
+  listarLecturasMensajes,
+  marcarMensajesLeidos
+} from "./chat.service";
 
 /* ==========================================================================
-   10. GESTOR DE TAREAS (TASK MASTER)
+   10. GESTOR DE TAREAS (TASK MASTER) — extraído a tareas.service.js
    ========================================================================== */
 
-export async function listarTareasGrupo(grupoId) {
-  if (!grupoId) throw new Error("ID de grupo inválido.");
-  const { data, error } = await supabase
-    .from("grupo_tareas")
-    .select("*")
-    .eq("grupo_id", grupoId)
-    .order("created_at", { ascending: true });
-  if (error) throw error;
-  return data || [];
-}
-
-export async function crearTareaGrupo({ grupoId, titulo }) {
-  if (!grupoId || !titulo?.trim()) throw new Error("Datos inválidos para la tarea.");
-  const { data, error } = await supabase
-    .from("grupo_tareas")
-    .insert({
-      grupo_id: grupoId,
-      titulo: titulo.trim(),
-      completada: false
-    })
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-}
-
-export async function toggleTareaGrupo({ tareaId, completada }) {
-  if (!tareaId) throw new Error("ID de tarea inválido.");
-  const { data, error } = await supabase
-    .from("grupo_tareas")
-    .update({ completada: Boolean(completada) })
-    .eq("id", tareaId)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-}
-
-export async function editarTareaGrupo({ tareaId, titulo }) {
-  if (!tareaId || !titulo?.trim()) throw new Error("Datos inválidos.");
-  const { data, error } = await supabase
-    .from("grupo_tareas")
-    .update({ titulo: titulo.trim() })
-    .eq("id", tareaId)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-}
-
-export async function eliminarTareaGrupo({ tareaId }) {
-  if (!tareaId) throw new Error("ID de tarea inválido.");
-  const { error } = await supabase
-    .from("grupo_tareas")
-    .delete()
-    .eq("id", tareaId);
-  if (error) throw error;
-}
+export {
+  listarTareasGrupo,
+  crearTareaGrupo,
+  toggleTareaGrupo,
+  editarTareaGrupo,
+  eliminarTareaGrupo
+} from "./tareas.service";
 
 /* ==========================================================================
-   11. HISTORIAL DE CHAT (IA)
+   11. HISTORIAL DE CHAT (IA) — extraído a ia-historial.service.js
    ========================================================================== */
 
-function adjuntarTagChat(mensaje, chatId) {
-  if (!chatId) return mensaje;
-  return `[[CHAT:${chatId}]] ${mensaje}`;
-}
-
-function extraerChatId(mensaje = "") {
-  const match = `${mensaje}`.match(CHAT_TAG_REGEX);
-  return match?.[1] || null;
-}
-
-function limpiarTagChat(mensaje = "") {
-  return `${mensaje}`.replace(CHAT_TAG_REGEX, "");
-}
-
-export async function guardarMensajeChat({ mensajeUsuario, respuestaIA, chatId = null }) {
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const userId = session?.user?.id;
-  if (!userId) throw new Error("No hay sesión activa.");
-
-  const { error } = await supabase.from("ia_chats").insert({
-    user_id: userId,
-    mensaje_usuario: adjuntarTagChat(mensajeUsuario, chatId),
-    respuesta_ia: respuestaIA
-  });
-  if (error) throw error;
-}
-
-export async function listarHistorialChat() {
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const userId = session?.user?.id;
-  if (!userId) return [];
-
-  const { data, error } = await supabase
-    .from("ia_chats")
-    .select("id, mensaje_usuario, respuesta_ia, created_at")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(200);
-  if (error) throw error;
-  
-  return (data || []).map(item => ({
-    ...item,
-    chat_id: extraerChatId(item.mensaje_usuario) || "legacy",
-    mensaje_usuario: limpiarTagChat(item.mensaje_usuario)
-  }));
-}
-
-export async function eliminarHistorialChatPorId(chatId) {
-  if (!chatId) throw new Error("Chat inválido.");
-
-  const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  const userId = session?.user?.id;
-  if (!userId) throw new Error("No hay sesión activa.");
-
-  let query = supabase.from("ia_chats").delete().eq("user_id", userId);
-  if (chatId === "legacy") {
-    query = query.not("mensaje_usuario", "like", "[[CHAT:%");
-  } else {
-    query = query.like("mensaje_usuario", `[[CHAT:${chatId}]]%`);
-  }
-
-  const { error } = await query;
-  if (error) throw error;
-}
+export {
+  guardarMensajeChat,
+  listarHistorialChat,
+  eliminarHistorialChatPorId
+} from "./ia-historial.service";
 
 /* ==========================================================================
-   12. MÉTRICAS ADMINISTRATIVAS
+   12. MÉTRICAS ADMINISTRATIVAS — extraído a metricas.service.js
    ========================================================================== */
 
-export async function obtenerTotalesAdminHome({ fechaFiltro = "all" } = {}) {
-  const fechaDesde = obtenerFechaDesdeFiltro(fechaFiltro);
-  let gruposBuilder = supabase.from("grupos").select("id", { count: "exact", head: true });
-  let reposBuilder = supabase
-    .from("repositorios_publicos")
-    .select("id", { count: "exact", head: true });
-  let usuariosBuilder = supabase.from("profiles").select("id", { count: "exact", head: true });
-
-  if (fechaDesde) {
-    gruposBuilder = gruposBuilder.gte("created_at", fechaDesde);
-    reposBuilder = reposBuilder.gte("created_at", fechaDesde);
-    usuariosBuilder = usuariosBuilder.gte("created_at", fechaDesde);
-  }
-
-  const [gruposQuery, reposQuery, usuariosQuery] = await Promise.all([
-    gruposBuilder,
-    reposBuilder,
-    usuariosBuilder
-  ]);
-
-  if (gruposQuery.error) throw gruposQuery.error;
-  if (reposQuery.error) throw reposQuery.error;
-  if (usuariosQuery.error) throw usuariosQuery.error;
-
-  return {
-    totalGrupos: Number(gruposQuery.count || 0),
-    totalRepositorios: Number(reposQuery.count || 0),
-    totalUsuarios: Number(usuariosQuery.count || 0)
-  };
-}
+export { obtenerTotalesAdminHome } from "./metricas.service";

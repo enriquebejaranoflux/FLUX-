@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../config/supabaseClient";
 import { PALETA_BANNERS, obtenerColorEntidad } from "../../utils/groupColors";
+import { DIAS } from "../../constants/dias";
 
 // Endpoints / API Services
 import {
@@ -30,15 +31,6 @@ import {
 } from "../../servicios/grupos.api";
 
 // ─── 2. CONSTANTES DE CONFIGURACIÓN ─────────────────────────────────────
-const DIAS = [
-  { value: 1, label: "Lun" },
-  { value: 2, label: "Mar" },
-  { value: 3, label: "Mie" },
-  { value: 4, label: "Jue" },
-  { value: 5, label: "Vie" },
-  { value: 6, label: "Sab" },
-  { value: 0, label: "Dom" }
-];
 
 const FECHA_OPTIONS = [
   { value: "all", label: "Sin filtro de fecha" },

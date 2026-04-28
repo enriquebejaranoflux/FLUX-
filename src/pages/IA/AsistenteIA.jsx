@@ -12,6 +12,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../config/supabaseClient";
+import { useSession } from "../../hooks/useSession";
 
 // Endpoints / API Services
 import {
@@ -22,17 +23,7 @@ import {
   eliminarHistorialChatPorId
 } from "../../servicios/grupos.api";
 import { generarPlanEstudio, chatConIA } from "../../servicios/ia.api";
-
-// ─── 2. CONSTANTES GLOBALES ─────────────────────────────────────────────
-const DIAS = [
-  { value: 0, label: "Dom" },
-  { value: 1, label: "Lun" },
-  { value: 2, label: "Mar" },
-  { value: 3, label: "Mie" },
-  { value: 4, label: "Jue" },
-  { value: 5, label: "Vie" },
-  { value: 6, label: "Sab" }
-];
+import { DIAS } from "../../constants/dias";
 
 export default function AsistenteIA() {
   
@@ -41,9 +32,7 @@ export default function AsistenteIA() {
   const [tabActiva, setTabActiva] = useState("planificador");
 
   // ── Sesión y Usuario
-  const [userId, setUserId] = useState(null);
-  const [displayName, setDisplayName] = useState("");
-  const [cargandoSesion, setCargandoSesion] = useState(true);
+  const { userId, displayName, loading: cargandoSesion } = useSession();
 
   // ── Tab: Planificador
   const [tareasPendientes, setTareasPendientes] = useState([]);
@@ -74,18 +63,6 @@ export default function AsistenteIA() {
   const chatEndRef = useRef(null);
 
   // ─── 4. EFECTOS (LIFECYCLE) ─────────────────────────────────────────────
-
-  /**
-   * Efecto 1: Cargar Sesión
-   * Obtiene la sesión actual al montar el componente.
-   */
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUserId(session?.user?.id || null);
-      setDisplayName(session?.user?.user_metadata?.display_name || session?.user?.email || "");
-      setCargandoSesion(false);
-    });
-  }, []);
 
   /**
    * Efecto 2: Cargar Contexto

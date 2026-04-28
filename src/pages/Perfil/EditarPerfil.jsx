@@ -11,62 +11,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../config/supabaseClient";
+import { DIAS } from "../../constants/dias";
+import { timeToMinutes, validarBloque } from "../../utils/schedule";
 
 // ─── 2. CONSTANTES Y FUNCIONES AUXILIARES (HELPERS) ─────────────────────
 const AVATAR_BUCKET = "Flux_repositorioGrupos";
-
-const DIAS = [
-  { value: 1, label: "Lun" },
-  { value: 2, label: "Mar" },
-  { value: 3, label: "Mie" },
-  { value: 4, label: "Jue" },
-  { value: 5, label: "Vie" },
-  { value: 6, label: "Sab" },
-  { value: 0, label: "Dom" }
-];
-
-/**
- * Convierte una hora en formato "HH:MM" a minutos totales (ej. "10:30" -> 630).
- * Útil para comparar duraciones fácilmente.
- */
-function timeToMinutes(t) {
-  const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
-}
-
-/**
- * Valida que un nuevo bloque de horario sea lógico (inicio < fin)
- * y que no colisione (se solape) con otros bloques ya guardados ese mismo día.
- */
-function validarBloque(bloque, existentes, excludeId = null) {
-  if (!bloque.startTime || !bloque.endTime) {
-    return "Debes definir hora de inicio y fin.";
-  }
-  
-  const inicio = timeToMinutes(bloque.startTime);
-  const fin = timeToMinutes(bloque.endTime);
-  
-  if (inicio >= fin) {
-    return "La hora de inicio debe ser menor que la hora de fin.";
-  }
-  
-  const solapa = (existentes || []).some(b => {
-    if (excludeId && b.id === excludeId) return false; // Ignorar el mismo bloque si se está editando
-    if (b.dayOfWeek !== bloque.dayOfWeek) return false;
-    
-    const eInicio = timeToMinutes(b.startTime);
-    const eFin = timeToMinutes(b.endTime);
-    
-    // Condición de solapamiento
-    return inicio < eFin && fin > eInicio;
-  });
-  
-  if (solapa) {
-    return "El bloque se solapa con otro en el mismo día.";
-  }
-  
-  return "";
-}
 
 export default function EditarPerfil() {
   // ─── 3. ESTADOS Y HOOKS DE NAVEGACIÓN ──────────────────────────────────

@@ -10,8 +10,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../config/supabaseClient";
-import TaskMaster from "../Tareas/TaskMaster";
+import TaskMaster from "../../components/TaskMaster";
 import { PALETA_BANNERS, obtenerColorEntidad } from "../../utils/groupColors";
+import { DIAS } from "../../constants/dias";
 
 // Endpoints / API Services
 import {
@@ -104,15 +105,6 @@ export default function GrupoDetalle() {
   const [iaError, setIaError] = useState("");
 
   // ─── 3. CONSTANTES Y VARIABLES COMPUTADAS (Memos) ──────────────────────
-  const DIAS = [
-    { value: 1, label: "Lun" },
-    { value: 2, label: "Mar" },
-    { value: 3, label: "Mie" },
-    { value: 4, label: "Jue" },
-    { value: 5, label: "Vie" },
-    { value: 6, label: "Sab" },
-    { value: 0, label: "Dom" }
-  ];
 
   const totalMiembros = grupo?.miembros?.length || 0;
   

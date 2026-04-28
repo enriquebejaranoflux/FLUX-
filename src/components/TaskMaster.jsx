@@ -9,7 +9,7 @@
  * - Feedback visual para tareas completadas (tachado).
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const TaskMaster = ({ 
   esAdmin, 
