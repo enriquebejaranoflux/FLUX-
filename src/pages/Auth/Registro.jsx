@@ -166,13 +166,16 @@ function Registro() {
   // ─── RENDERIZADO (JSX) ────────────────────────────────────────────────
   return (
     <div className="auth-layout">
-      
+      <div className="auth-orb auth-orb-1" aria-hidden="true" />
+      <div className="auth-orb auth-orb-2" aria-hidden="true" />
+      <div className="auth-orb auth-orb-3" aria-hidden="true" />
+
       {/* ── Encabezado: Marca y Subtítulo Dinámico ── */}
       <div className="auth-header">
         <div className="brand">
           <img src={logoFlux} alt="FLUX" className="brand-logo-img" />
         </div>
-        <span className="brandSubtitle" style={{ fontSize: '15px' }}>
+        <span className="brandSubtitle">
           {esLogin ? 'Bienvenido de nuevo' : 'Únete a la comunidad'}
         </span>
       </div>

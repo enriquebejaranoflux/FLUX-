@@ -30,7 +30,7 @@
   
   /* Tipografía mejorada */
   --fuente: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  --fuente-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --fuente-display: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   
   /* Espaciado consistente */
   --space-1: 4px;
@@ -75,8 +75,9 @@ body{
   min-height: 100vh;
   position: relative;
   background:
-    radial-gradient(900px 500px at 15% 10%, rgba(244, 176, 123, 0.15), transparent 50%),
-    radial-gradient(700px 500px at 85% 15%, rgba(219, 225, 231, 0.10), transparent 50%),
+    radial-gradient(ellipse 900px 600px at 10% 0%, rgba(255, 155, 81, 0.12), transparent 55%),
+    radial-gradient(ellipse 700px 500px at 90% 20%, rgba(191, 201, 209, 0.18), transparent 50%),
+    radial-gradient(ellipse 500px 400px at 50% 90%, rgba(255, 155, 81, 0.06), transparent 60%),
     var(--fondo);
   background-size: 100% 100%;
   background-attachment: fixed;
@@ -217,9 +218,10 @@ body{
 }
 
 .brand-logo-img {
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(255, 155, 81, 0.3));
 }
 
 .brand-logo-small {
@@ -235,10 +237,21 @@ body{
   color: var(--texto);
 }
 
-.brandSubtitle{ 
-  font-size: 12px; 
+/* === AUTH HEADING GRADIENT === */
+.auth-card-width h2 {
+  background: linear-gradient(135deg, var(--texto) 30%, #4a6275 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brandSubtitle {
+  font-size: 13px;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: var(--fuente-display);
 }
 
 /* === CARDS MEJORADAS === */
@@ -260,12 +273,25 @@ body{
 }
 
 .card strong {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--texto);
-  display: block;
+  font-family: var(--fuente-display);
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: var(--space-3);
   letter-spacing: -0.01em;
+}
+
+.card strong::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--primario), #ff7a30);
+  flex-shrink: 0;
 }
 
 .card h1, .card p {
@@ -425,15 +451,34 @@ select.input {
 }
 
 .btnPrimary{
-  border: 1px solid var(--primario);
-  background: linear-gradient(135deg, var(--primario), var(--primario-oscuro));
+  border: 1px solid rgba(255, 155, 81, 0.6);
+  background: linear-gradient(135deg, #ffb070 0%, var(--primario) 50%, #ff7a30 100%);
   color: #1a0d00;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(255, 155, 81, 0.25);
+  font-family: var(--fuente-display);
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 12px rgba(255, 155, 81, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btnPrimary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transition: left 0.5s ease;
+}
+
+.btnPrimary:hover::after {
+  left: 100%;
 }
 
 .btnPrimary:hover:not(:disabled){
-  box-shadow: 0 4px 16px rgba(255, 155, 81, 0.35);
+  box-shadow: 0 6px 20px rgba(255, 155, 81, 0.45), inset 0 1px 0 rgba(255,255,255,0.3);
   transform: translateY(-2px);
 }
 
@@ -840,13 +885,52 @@ select.input {
   min-height: 100vh;
   width: 100%;
   padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-orb {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 155, 81, 0.22) 0%, transparent 70%);
+  top: -120px;
+  left: -100px;
+}
+
+.auth-orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(37, 52, 63, 0.1) 0%, transparent 70%);
+  bottom: -80px;
+  right: -80px;
+}
+
+.auth-orb-3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 155, 81, 0.12) 0%, transparent 70%);
+  bottom: 20%;
+  left: 10%;
+}
+
+.auth-layout > * {
+  position: relative;
+  z-index: 1;
 }
 
 .auth-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   margin-bottom: var(--space-5);
 }
 
@@ -854,6 +938,8 @@ select.input {
   width: 100%;
   max-width: 480px;
   padding: var(--space-8);
+  border: 1px solid rgba(37, 52, 63, 0.1);
+  box-shadow: 0 8px 40px rgba(37, 52, 63, 0.1), 0 2px 8px rgba(37, 52, 63, 0.06);
 }
 
 @media (max-width: 640px) {
@@ -862,15 +948,16 @@ select.input {
   }
 }
 
-.auth-card-width h2 { 
+.auth-card-width h2 {
   margin: 0 0 var(--space-4) 0;
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.02em;
+  font-family: var(--fuente-display);
 }
 
-.auth-card-width form { 
-  margin: 0; 
+.auth-card-width form {
+  margin: 0;
 }
 
 .text-center { 
@@ -1196,8 +1283,11 @@ select.input {
   font-size: 56px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: var(--texto);
   line-height: 1;
+  background: linear-gradient(135deg, var(--texto) 0%, #4a6275 50%, var(--primario) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .home-header-title-wrap {
@@ -1462,9 +1552,11 @@ select.input {
   height: 70px;
   border-radius: 0;
   border: none;
-  border-top: 1px solid rgba(37, 52, 63, 0.1);
-  background: #ffffff;
-  box-shadow: 0 -2px 12px rgba(37, 52, 63, 0.08);
+  border-top: 1px solid rgba(37, 52, 63, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 -4px 24px rgba(37, 52, 63, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -1477,13 +1569,22 @@ select.input {
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  border: 1px solid rgba(37, 52, 63, 0.2);
-  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(37, 52, 63, 0.15);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--texto);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-footer-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: var(--primario);
+  color: var(--primario);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 155, 81, 0.2);
 }
 
 .home-footer-icon {
@@ -1496,16 +1597,22 @@ select.input {
   height: 52px;
   border-radius: 999px;
   border: none;
-  background: linear-gradient(135deg, var(--primario), var(--acento));
+  background: linear-gradient(135deg, #ffb070, var(--primario), #ff7a30);
   color: #1a0d00;
   font-size: 34px;
   line-height: 1;
   cursor: pointer;
-  box-shadow: var(--sombra-lg);
+  box-shadow: 0 4px 20px rgba(255, 155, 81, 0.45), 0 2px 6px rgba(0,0,0,0.1);
   margin-top: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.home-footer-plus:hover {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 28px rgba(255, 155, 81, 0.55), 0 2px 8px rgba(0,0,0,0.12);
 }
 
 .home-footer-avatar {
@@ -1734,22 +1841,23 @@ select.input {
   padding: 0;
   border-radius: var(--radio-lg);
   overflow: hidden;
-  border: 1px solid rgba(37, 52, 63, 0.16);
-  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(37, 52, 63, 0.12);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--texto);
   text-align: left;
   cursor: pointer;
-  box-shadow: var(--sombra);
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(37, 52, 63, 0.08), 0 1px 3px rgba(37, 52, 63, 0.06);
+  transition: all 0.25s ease;
 }
 
 .classroom-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--sombra-lg);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(37, 52, 63, 0.14), 0 4px 8px rgba(37, 52, 63, 0.06);
+  border-color: rgba(37, 52, 63, 0.08);
 }
 
 .classroom-card-banner {
-  height: 88px;
+  height: 96px;
   padding: 12px;
   display: flex;
   justify-content: flex-end;
@@ -1847,8 +1955,10 @@ select.input {
 }
 
 .classroom-card-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
+  font-family: var(--fuente-display);
+  letter-spacing: -0.01em;
   margin-bottom: 4px;
 }
 
