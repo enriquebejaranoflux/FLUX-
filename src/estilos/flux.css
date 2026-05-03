@@ -3612,3 +3612,693 @@ textarea.input {
   transition: transform 0.1s ease;
 }
 
+/* === TEACHER PORTAL DASHBOARD === */
+.teacher-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  color: var(--texto);
+}
+
+.teacher-topbar {
+  position: sticky;
+  top: var(--space-4);
+  z-index: 120;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-5);
+  border: 1px solid rgba(37, 52, 63, 0.12);
+  border-radius: var(--radio-lg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.68)),
+    radial-gradient(circle at 50% -30%, rgba(255, 155, 81, 0.22), transparent 42%);
+  box-shadow: var(--sombra-md);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.teacher-brand,
+.teacher-profile-area,
+.teacher-mode-badge,
+.teacher-card-header,
+.teacher-chat-admin,
+.teacher-chat-meta {
+  display: flex;
+  align-items: center;
+}
+
+.teacher-brand {
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.teacher-logo-button {
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 155, 81, 0.38);
+  border-radius: 16px;
+  background: #25343f;
+  padding: 7px;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(37, 52, 63, 0.16);
+}
+
+.teacher-logo-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.teacher-eyebrow {
+  margin: 0 0 4px;
+  color: rgba(37, 52, 63, 0.62);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.teacher-brand h1,
+.teacher-hero h2,
+.teacher-card-header h3 {
+  margin: 0;
+  font-family: var(--fuente-display);
+  color: var(--texto);
+  letter-spacing: -0.03em;
+}
+
+.teacher-brand h1 {
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1;
+}
+
+.teacher-mode-badge {
+  justify-self: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 155, 81, 0.5);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 155, 81, 0.22), rgba(255, 255, 255, 0.78));
+  color: #6f360c;
+  font-family: var(--fuente-display);
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 12px 24px rgba(255, 155, 81, 0.18);
+}
+
+.teacher-mode-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--primario);
+  box-shadow: 0 0 0 6px rgba(255, 155, 81, 0.18);
+}
+
+.teacher-profile-area {
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.teacher-icon-button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(37, 52, 63, 0.13);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--texto);
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--sombra);
+}
+
+.teacher-icon-button::before {
+  content: "🔔";
+  font-size: 18px;
+}
+
+.teacher-icon-button span {
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--primario);
+  color: #1a0d00;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+}
+
+.teacher-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(255, 155, 81, 0.8);
+  background: linear-gradient(135deg, #ffffff, #ffe3c9);
+  color: var(--texto);
+  font-weight: 800;
+  box-shadow: 0 0 0 4px rgba(255, 155, 81, 0.14), var(--sombra);
+}
+
+.teacher-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.teacher-sidebar {
+  position: sticky;
+  top: 112px;
+  min-height: calc(100vh - 148px);
+  background:
+    linear-gradient(180deg, rgba(37, 52, 63, 0.96), rgba(26, 37, 46, 0.96)),
+    radial-gradient(circle at 20% 0%, rgba(255, 155, 81, 0.24), transparent 40%);
+  color: #f5f7fa;
+}
+
+.teacher-sidebar-head {
+  margin-bottom: var(--space-4);
+}
+
+.teacher-sidebar-label {
+  display: inline-flex;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 155, 81, 0.42);
+  color: #ffd6b7;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.teacher-sidebar strong {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.teacher-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.teacher-nav-item {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radio);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.84);
+  text-align: left;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.teacher-nav-item span {
+  color: rgba(255, 155, 81, 0.95);
+  font-family: var(--fuente-display);
+  font-size: 12px;
+}
+
+.teacher-nav-item:hover,
+.teacher-nav-item.active {
+  border-color: rgba(255, 155, 81, 0.52);
+  background: rgba(255, 155, 81, 0.14);
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.teacher-main {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.teacher-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 155, 81, 0.28), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.68));
+}
+
+.teacher-hero h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.04;
+}
+
+.teacher-hero p {
+  max-width: 690px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.teacher-hero-stat {
+  min-width: 180px;
+  padding: var(--space-5);
+  border-radius: var(--radio-lg);
+  border: 1px solid rgba(255, 155, 81, 0.34);
+  background: rgba(255, 155, 81, 0.12);
+  text-align: center;
+}
+
+.teacher-hero-stat span,
+.teacher-metric span {
+  display: block;
+  font-family: var(--fuente-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--texto);
+}
+
+.teacher-hero-stat span {
+  font-size: 46px;
+}
+
+.teacher-hero-stat small {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.teacher-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.teacher-action-card {
+  min-height: 118px;
+  padding: var(--space-5);
+  border: 1px solid rgba(255, 155, 81, 0.35);
+  border-radius: var(--radio-lg);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 247, 239, 0.78)),
+    radial-gradient(circle at 100% 0%, rgba(255, 155, 81, 0.24), transparent 38%);
+  box-shadow: var(--sombra);
+  color: var(--texto);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.teacher-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(255, 155, 81, 0.2);
+}
+
+.teacher-action-card strong,
+.teacher-action-card span {
+  display: block;
+}
+
+.teacher-action-card strong {
+  font-family: var(--fuente-display);
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.teacher-action-card span {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.teacher-split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: var(--space-5);
+}
+
+.teacher-card-header {
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.teacher-card-header h3 {
+  font-size: 22px;
+}
+
+.teacher-small-action,
+.teacher-grade-button,
+.teacher-chat-admin button {
+  border: 1px solid rgba(255, 155, 81, 0.42);
+  border-radius: 999px;
+  background: rgba(255, 155, 81, 0.13);
+  color: #6f360c;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.teacher-small-action {
+  padding: 8px 12px;
+}
+
+.teacher-table-wrap {
+  overflow-x: auto;
+}
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.teacher-table th,
+.teacher-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(37, 52, 63, 0.1);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.teacher-table th {
+  color: rgba(37, 52, 63, 0.64);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.teacher-table td strong,
+.teacher-table td span {
+  display: block;
+}
+
+.teacher-table td strong {
+  font-family: var(--fuente-display);
+  color: var(--texto);
+}
+
+.teacher-table td span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.teacher-needs-grading {
+  width: fit-content;
+  min-width: 34px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 155, 81, 0.16);
+  color: #7d3d0d !important;
+  text-align: center;
+  font-weight: 800 !important;
+}
+
+.teacher-grade-button {
+  padding: 8px 13px;
+}
+
+.teacher-chat {
+  min-width: 0;
+}
+
+.teacher-chat-admin {
+  gap: 8px;
+  margin-bottom: var(--space-3);
+}
+
+.teacher-chat-admin button {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.teacher-chat-feed {
+  display: grid;
+  gap: 12px;
+}
+
+.teacher-chat-message {
+  padding: 12px;
+  border: 1px solid rgba(37, 52, 63, 0.12);
+  border-radius: 16px 16px 16px 6px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.teacher-chat-message.own {
+  border-color: rgba(255, 155, 81, 0.32);
+  border-radius: 16px 16px 6px 16px;
+  background: rgba(255, 155, 81, 0.12);
+}
+
+.teacher-chat-meta {
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.teacher-chat-meta strong {
+  font-size: 13px;
+}
+
+.teacher-chat-meta span,
+.teacher-private-chip {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(37, 52, 63, 0.08);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.teacher-chat-message p {
+  margin: 0;
+  color: var(--texto);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.teacher-performance {
+  background:
+    radial-gradient(circle at 0% 100%, rgba(255, 155, 81, 0.18), transparent 30%),
+    rgba(255, 255, 255, 0.75);
+}
+
+.teacher-tab-panel {
+  min-width: 0;
+}
+
+.teacher-tab-panel h3 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--fuente-display);
+  font-size: 22px;
+  letter-spacing: -0.03em;
+}
+
+.teacher-tab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: var(--space-5);
+}
+
+.teacher-form-preview,
+.teacher-resource-list,
+.teacher-builder-list {
+  display: grid;
+  gap: 10px;
+}
+
+.teacher-form-preview {
+  margin: var(--space-4) 0;
+}
+
+.teacher-form-preview label {
+  color: rgba(37, 52, 63, 0.58);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.teacher-form-preview div,
+.teacher-resource-list span,
+.teacher-builder-list div {
+  padding: 12px;
+  border: 1px solid rgba(37, 52, 63, 0.1);
+  border-radius: var(--radio);
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.teacher-primary-action {
+  width: auto;
+  margin-top: var(--space-3);
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 155, 81, 0.6);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb070 0%, var(--primario) 55%, #ff7a30 100%);
+  color: #1a0d00;
+  font-family: var(--fuente-display);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(255, 155, 81, 0.24);
+}
+
+.teacher-builder-list div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.teacher-builder-list strong {
+  font-family: var(--fuente-display);
+  font-size: 24px;
+  color: var(--texto);
+}
+
+.teacher-builder-list span {
+  color: var(--muted);
+  font-weight: 700;
+  text-align: right;
+}
+
+.teacher-private-chip {
+  border: 1px solid rgba(37, 52, 63, 0.1);
+  background: rgba(37, 52, 63, 0.08);
+}
+
+.teacher-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.teacher-metric {
+  padding: var(--space-5);
+  border: 1px solid rgba(37, 52, 63, 0.1);
+  border-radius: var(--radio-lg);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+.teacher-metric span {
+  font-size: 38px;
+}
+
+.teacher-metric p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.teacher-alert-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.teacher-alert-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radio);
+  background: rgba(37, 52, 63, 0.06);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.teacher-alert-item span {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--primario);
+  box-shadow: 0 0 0 5px rgba(255, 155, 81, 0.14);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
+  .teacher-layout,
+  .teacher-split,
+  .teacher-tab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-sidebar {
+    position: static;
+    min-height: auto;
+  }
+
+  .teacher-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .teacher-shell {
+    padding: var(--space-4);
+  }
+
+  .teacher-topbar {
+    position: static;
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .teacher-mode-badge {
+    justify-self: stretch;
+    justify-content: center;
+  }
+
+  .teacher-profile-area {
+    justify-content: space-between;
+  }
+
+  .teacher-hero,
+  .teacher-card-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .teacher-quick-actions,
+  .teacher-metrics-grid,
+  .teacher-alert-list {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-hero-stat {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .teacher-shell {
+    padding: var(--space-3);
+  }
+
+  .teacher-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-brand h1 {
+    font-size: 24px;
+  }
+
+  .teacher-logo-button {
+    width: 46px;
+    height: 46px;
+  }
+}
+

@@ -24,6 +24,7 @@ import Home from "./pages/Home/Home";
 import GrupoDetalle from "./pages/Grupos/GrupoDetalle";
 import DetallesRepositorio from "./pages/Grupos/DetallesRepositorio";
 import RepositorioPublicoDetalle from "./pages/Grupos/RepositorioPublicoDetalle";
+import PortalProfesor from "./pages/Profesor/PortalProfesor";
 
 // Perfiles y Herramientas Avanzadas
 import EditarPerfil from "./pages/Perfil/EditarPerfil";
@@ -153,6 +154,10 @@ export default function App() {
       <Route
         path="/repos-publicos/:id"
         element={<RepositorioPublicoDetalle />}
+      />
+      <Route
+        path="/profesor"
+        element={<PortalProfesor />}
       />
 
       {/* ── Rutas Privadas (Requieren Sesión Activa) ── */}

@@ -872,6 +872,19 @@ export default function Home() {
           </div>
 
           <div className="home-drawer-section">
+            <div className="label">Modo profesor</div>
+            <button
+              className="drawer-item drawer-metricas-btn"
+              onClick={() => {
+                setMenuAbierto(false);
+                navigate("/profesor");
+              }}
+            >
+              Portal del Profesor
+            </button>
+          </div>
+
+          <div className="home-drawer-section">
             <div className="label">Grupos</div>
             <div className="drawer-list">
               {tieneSesion ? (
